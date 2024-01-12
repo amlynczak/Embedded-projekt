@@ -11,4 +11,6 @@ void writeSign(int x_0, int y_0, unsigned char sign, uint16_t color);
 
 void writeString(int x_0, int y_0, char *napis, uint16_t color);
 
+void clearText(void);
+
 #endif

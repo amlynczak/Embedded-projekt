@@ -6,7 +6,6 @@
 
 static bool startFlag;
 static ARM_DRIVER_USART * USARTdrv = &Driver_USART0;
-static ARM_DRIVER_USART * USARTdrv1 = &Driver_USART1;
 
 typedef struct{
 	int squares[5][5]; //0 - nic nie ma na polu, 1 - postawiony statek, -1 - trafiony statek

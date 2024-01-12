@@ -69,7 +69,7 @@ void ustawStatkiRand(Player *p){
 		
 		p->boardPlayer.squares[randX][randY] = 1;
 		p->boardPlayer.squares[randX][randY+1] = 1;
-		p->boardPlayer.squares[randX][randY+1] = 1;
+		p->boardPlayer.squares[randX][randY+2] = 1;
 	}
 	
 	if(rand()%2==0){
@@ -99,13 +99,12 @@ void ustawStatkiRand(Player *p){
 
 void start(float *tab){
 	USART_Init(USARTdrv, 9600);
-	USART_Init(USARTdrv1, 115200);
 	drawRectangle(190,95, 220, 225, LCDBlack);
 	drawRectangle(191,96,219,224,LCDWhite);
 	writeString(196, 135, "READY", LCDBlack);
 	
-	int px = 10; //trzeba bylo cos takiego bo tam krzyczal pozniej
-	int py = 10;
+	int px = 0;
+	int py = 0;
 	int *x = &px;
 	int *y = &py;
 	char text[1];
@@ -118,7 +117,6 @@ void start(float *tab){
 			break;
 		}
 		USARTdrv->Receive(text, 1);
-		//USARTdrv1->Send(text, 1);
 			
 		if(text[0] == 'R'){
 					startFlag = false;
@@ -127,7 +125,6 @@ void start(float *tab){
 	}
 	drawRectangle(190,95, 220, 225, LCDWhite);
 	USART_DeInit(USARTdrv);
-	USART_DeInit(USARTdrv1);
 }
 
 bool shoot(float *tab, Player *player){
@@ -140,36 +137,29 @@ bool shoot(float *tab, Player *player){
 	char info[1] = {'0'};
 	
 	USART_Init(USARTdrv, 9600);
-	USART_Init(USARTdrv1, 115200);
 	
 	while(1){
 		if(startFlag){
 			USARTdrv->Receive(info, 1);
 			writeString(196, 140, "wait", LCDBlack);
 			delay(100);
-			USARTdrv1->Send(info, 1);
 			if(info[0] == 'R'){
 				startFlag = true;
 				drawRectangle(190,95, 220, 225, LCDWhite);
-
 				break;
 			}
 		} else{
 			delay(100);
 			startFlag = false;
 			USARTdrv->Send("R", 1);
-			USARTdrv1->Send("R", 1);
 			break;
 		}
 	}
-	drawRectangle(190,95, 220, 225, LCDWhite);
-	writeString(196, 140, "sent", LCDBlack);
+	clearText();
 	
 	USART_DeInit(USARTdrv);
-	USART_DeInit(USARTdrv1);
 	
 	USART_Init(USARTdrv, 9600);
-	USART_Init(USARTdrv1, 115200);
 	
 	while(1){
 		if(!startFlag){
@@ -194,20 +184,18 @@ bool shoot(float *tab, Player *player){
 				}
 			}
 			USARTdrv->Send(coor, 2);
-			writeString(196, 140, "sent", LCDBlack);
 			break;
 		}
 	}
+	clearText();
 	
 	USART_DeInit(USARTdrv);
-	USART_DeInit(USARTdrv1);
 	
 	int y_b = result/10;
 	int x_b = 5-(result - y_b*10);
 	y_b = y_b -1;
 	
 	USART_Init(USARTdrv, 9600);
-	USART_Init(USARTdrv1, 115200);
 	
 	while(1){
 		if(startFlag){
@@ -215,26 +203,27 @@ bool shoot(float *tab, Player *player){
 			writeString(196, 140, "waitng for check", LCDBlack);
 			if(info[0] == 'h' || info[0] == 'm') break;
 		}else{
-			writeString(196, 140, "checking...     ", LCDBlack);
+			writeString(196, 140, "checking...", LCDBlack);
 			if(player->boardPlayer.squares[x_b][y_b] == 1){
 				info[0] = 'h';
 				player->boardPlayer.hits++;
-				writeString(196, 140, "ship hit!      ", LCDRed);
+				clearText();
+				writeString(196, 140, "ship hit!", LCDRed);
 			}
 			if(player->boardPlayer.squares[x_b][y_b] == 0){
 				info[0] = 'm';
-				writeString(196, 140, "miss!         ", LCDGreen);
+				clearText();
+				writeString(196, 140, "miss!", LCDGreen);
 			}
 			USARTdrv->Send(info, 1);
 			delay(100);
 			break;
 		}
 	}
-	writeString(196, 140, "checked", LCDBlack);
 	
 	USART_DeInit(USARTdrv);
-	USART_DeInit(USARTdrv1);
 	
+	clearText();
 	if(startFlag){
 		if(info[0] == 'h'){
 			player->boardOpponent.squares[x_b][y_b] = 1;
@@ -251,8 +240,6 @@ bool shoot(float *tab, Player *player){
 	if(info[0] == 'm'){
 		startFlag = !startFlag;
 	}
-	
-	
 	
 	return checkWin(player);
 }

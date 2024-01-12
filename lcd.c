@@ -38,3 +38,7 @@ void writeString(int x_0, int y_0, char *napis, uint16_t color){
         y = y+10;
     }
 }
+
+void clearText(void){
+	drawRectangle(196, 130, 240, 320, LCDWhite);
+}

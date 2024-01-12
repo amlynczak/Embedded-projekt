@@ -4,7 +4,6 @@
 #include "Driver_USART.h"
 
 extern ARM_DRIVER_USART Driver_USART0;
-extern ARM_DRIVER_USART Driver_USART1;
 
 static void USART_Init(ARM_DRIVER_USART * USARTdrv, int flow){
     USARTdrv->Initialize(NULL);   
