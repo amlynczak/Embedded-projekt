@@ -1,5 +1,7 @@
-#include<stdio.h>
-#include"LPC17xx.h"
+#ifndef DELAY_H
+#define DELAY_H
+
+#include "LPC17xx.h"
 
 volatile uint32_t msTicks = 0;
 
@@ -11,6 +13,8 @@ void delay(int t){
     msTicks = 0;
     while(msTicks<t);
 }
+
+#endif
 
 /*
 w main umiescic:

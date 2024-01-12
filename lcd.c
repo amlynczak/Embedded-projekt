@@ -1,4 +1,5 @@
-#include"lcd.h"
+#include "lcd.h"
+#include "PIN_LPC17xx.h"
 
 void drawRectangle(int x1, int y1, int x2, int y2, uint16_t color){
     for(int i=x1; i<x2; i++){

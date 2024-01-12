@@ -1,11 +1,51 @@
-#include <stdio.h>
-#include <string.h>
-#include "lcd.h"
-#include "calibration.h"
-#include "Driver_USART.h"
+#ifndef GAME_H
+#define GAME_H
 
-extern ARM_DRIVER_USART Driver_USART0;
+#include "usart.h"
+#include "tp_lib/TP_Open1768.h"
+
 static bool startFlag;
+static ARM_DRIVER_USART * USARTdrv = &Driver_USART0;
+static ARM_DRIVER_USART * USARTdrv1 = &Driver_USART1;
 
+typedef struct{
+	int squares[5][5]; //0 - nic nie ma na polu, 1 - postawiony statek, -1 - trafiony statek
+	int max_hits;
+	int hits;
+}Board;
 
-void start(double *tab);
+typedef struct{
+	Board boardPlayer;
+	Board boardOpponent;
+	bool win;
+}Player;
+
+bool isLegal(int x, int y, Board *b);
+
+int przelicz(int x, int y);
+
+void ustawStatkiRand(Player *p);
+
+void start(float *tab);
+
+bool shoot(float *tab, Player *player);
+
+bool checkWin(Player *player);
+
+void end(Player *player, float *tab);
+
+//z board
+
+void drawBoard(Board *board);
+
+void drawX(int xy);
+
+void drawVoid(int xy);
+
+//z calibrate
+
+void calibrate(float *arr);
+
+int calc(int xy, float a, float b);
+
+#endif
