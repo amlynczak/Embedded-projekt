@@ -33,18 +33,16 @@ bool checkWin(Player *player);
 
 void end(Player *player, float *tab);
 
-//z board
-
 void drawBoard(Board *board);
 
 void drawX(int xy);
 
 void drawVoid(int xy);
 
-//z calibrate
-
 void calibrate(float *arr);
 
 int calc(int xy, float a, float b);
+
+void drawHit(int xy);
 
 #endif

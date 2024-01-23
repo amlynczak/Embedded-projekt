@@ -5,7 +5,6 @@
 #include "Board_Joystick.h"
 
 int main(){
-	Joystick_Initialize();
 	uint32_t returnCode;
 	returnCode = SysTick_Config(SystemCoreClock/100);
 	if(returnCode!=0){}
@@ -28,6 +27,9 @@ int main(){
 	
 	ustawStatkiRand(&player);
 	drawBoard(&player.boardPlayer);
+	drawRectangle(190,95, 220, 225, LCDBlack);
+	drawRectangle(191,96,219,224,LCDWhite);
+	writeString(196, 135, "SUBMIT", LCDBlack);
 		
 	
 	while(1){
@@ -51,7 +53,6 @@ int main(){
 			
 		}
 	}
-	Joystick_Uninitialize();
 
 
 	start(tab);

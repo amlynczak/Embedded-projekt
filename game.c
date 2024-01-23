@@ -217,6 +217,7 @@ bool shoot(float *tab, Player *player){
 			}
 			USARTdrv->Send(info, 1);
 			delay(100);
+			drawHit(result);
 			break;
 		}
 	}
@@ -243,6 +244,7 @@ bool shoot(float *tab, Player *player){
 	
 	return checkWin(player);
 }
+
 
 bool checkWin(Player *player) {
     if((player->boardOpponent.hits < player->boardOpponent.max_hits) && (player->boardPlayer.hits < player->boardPlayer.max_hits)){
@@ -330,11 +332,11 @@ void drawX(int xy){
 	
 	int x_0, y_0, x_1, y_1;
 	
-	x_0 = 5 + 30 * (x-1);
-	y_0 = 165 + 30 * (y-1);
+	x_0 = 6 + 30 * (x-1);
+	y_0 = 166 + 30 * (y-1);
 	
-	x_1 = 5 + 30 * x;
-	y_1 = 165 + 30 * y;
+	x_1 = 3 + 30 * x;
+	y_1 = 163 + 30 * y;
 	
 	drawRectangle(x_0, y_0, x_1, y_1, LCDRed);
 }
@@ -345,13 +347,26 @@ void drawVoid(int xy){
 	
 	int x_0, y_0, x_1, y_1;
 	
-	x_0 = 5 + 30 * (x-1);
-	y_0 = 165 + 30 * (y-1);
+	x_0 = 6 + 30 * (x-1);
+	y_0 = 166 + 30 * (y-1);
 	
-	x_1 = 5 + 30 * x;
-	y_1 = 165 + 30 * y;
+	x_1 = 3 + 30 * x;
+	y_1 = 163 + 30 * y;
 	
 	drawRectangle(x_0, y_0, x_1, y_1, LCDBlueSea);
+}
+
+void drawHit(int xy){
+	int y = (xy)/10;
+	int x = 6-(xy-10*y);
+	
+	int x_0, y_0, x_1, y_1;
+	x_0 = 10+30*(x-1);
+	y_0 = 10+30*(y-1);
+	x_1 = 30*x;
+	y_1 = 30*y;
+	
+	drawRectangle(x_0, y_0, x_1, y_1, LCDRed);
 }
 
 void calibrate(float *arr){
@@ -372,6 +387,9 @@ void calibrate(float *arr){
 	//lewy dolny
 	drawRectangle(20, 11, 21, 30, LCDBlack);
 	drawRectangle(11, 20, 30, 21, LCDBlack);	
+	
+	writeString(195, 100, "CALIBRATION", LCDBlack);
+	writeString(175, 30, "Touch the appearing points", LCDBlack);
 	
 	while(1){
 		touchpanelGetXY(x1, y1);
