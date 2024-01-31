@@ -19,30 +19,40 @@ typedef struct{
 	bool win;
 }Player;
 
-bool isLegal(int x, int y, Board *b);
-
-int przelicz(int x, int y);
-
-void ustawStatkiRand(Player *p);
-
-void start(float *tab);
-
-bool shoot(float *tab, Player *player);
-
-bool checkWin(Player *player);
-
-void end(Player *player, float *tab);
-
-void drawBoard(Board *board);
-
-void drawX(int xy);
-
-void drawVoid(int xy);
+/*KALIBRACJA*/
 
 void calibrate(float *arr);
 
 int calc(int xy, float a, float b);
 
+/*PLANSZA (ustawienie + rysowanie)*/
+
+void ustawStatkiRand(Player *p);
+
+bool isLegal(int x, int y, Board *b);
+
+void drawBoard(Board *board);
+
+/*ROZPOCZECIE GRY*/
+
+void start(float *tab);
+
+/*ROZGRYWKA*/
+
+bool shoot(float *tab, Player *player);
+
+int przelicz(int x, int y);
+
 void drawHit(int xy);
+
+void drawX(int xy);
+
+void drawVoid(int xy);
+
+bool checkWin(Player *player);
+
+/*ZAKONCZENIE*/
+
+void end(Player *player, float *tab);
 
 #endif
